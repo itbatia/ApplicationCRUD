@@ -1,14 +1,13 @@
 package com.itbatia.crud.controller;
 
-import com.itbatia.crud.molel.Post;
-import com.itbatia.crud.molel.PostStatus;
-import com.itbatia.crud.molel.Tag;
-import com.itbatia.crud.service.PostService;
+import com.itbatia.crud.molel.*;
+import com.itbatia.crud.service.*;
 
 import java.util.List;
 
 public class PostController {
     private final PostService postService = new PostService();
+    private final TagService tagService = new TagService();
 
     public Post createPost(String content, List<Tag> tags, PostStatus postStatus) {
         return postService.createPost(content, tags, postStatus);
@@ -26,28 +25,41 @@ public class PostController {
         return postService.updatePost(newPost);
     }
 
-    public Post updatePostContent(Integer id, String newContent) {
+    public void updatePostContent(Integer id, String newContent) {
         Post post = postService.getPost(id);
         post.setContent(newContent);
-        return postService.updatePost(post);
+        updatePost(post);
     }
 
-    public Post updatePostTags(Integer id, List<Tag> newTags) {
-        Post post = postService.getPost(id);
-        post.setTags(newTags);
-        return postService.updatePost(post);
-    }
-
-    public Post updatePostStatus(Integer id, PostStatus postStatus) {
+    public void updatePostStatus(Integer id, PostStatus postStatus) {
         Post post = postService.getPost(id);
         post.setStatus(postStatus);
-        return postService.updatePost(post);
+        updatePost(post);
     }
 
-    public Post addTagToPost(Integer id, Tag tag) {
-        Post post = postService.getPost(id);
-        post.getTags().add(tag);
-        return postService.updatePost(post);
+    public void addTagToPost(Integer postId, String tagName) {
+        if (isExistingTag(tagName)) {
+            int tagId = getIdOfExistingTag(tagName);
+            Tag tag = tagService.getTag(tagId);
+            Post post = postService.getPost(postId);
+            post.getTags().add(tag);
+            updatePost(post);
+        } else {
+            Tag tag = tagService.createTag(tagName);
+            Post post = postService.getPost(postId);
+            post.getTags().add(tag);
+            updatePost(post);
+        }
+    }
+
+    private boolean isExistingTag(String tagName) {
+        List<Tag> tags = tagService.getAllTags();
+        return tags.stream().anyMatch(tag -> tag.getName().equals(tagName));
+    }
+
+    private Integer getIdOfExistingTag(String tagName) {
+        List<Tag> tags = tagService.getAllTags();
+        return tags.stream().filter(tag -> tag.getName().equals(tagName)).map(Tag::getId).findFirst().orElse(null);
     }
 
     public boolean deleteTagFromPost(Integer postId, Integer tagId) {
@@ -57,6 +69,7 @@ public class PostController {
         postService.updatePost(post);
         return result;
     }
+
     public void deletePost(Integer id) {
         postService.deletePost(id);
     }

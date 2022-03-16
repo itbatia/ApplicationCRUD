@@ -11,6 +11,96 @@ import java.util.*;
 public class DatabaseTagRepositoryImpl implements TagRepository {
 
     @Override
+    public Tag save(Tag tag) {
+        if (getAll().size() > 0) {
+            for (Tag t : getAll()) {
+                if (t.getName().equals(tag.getName())) {
+                    return t;
+                }
+            }
+        }
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String SQL_1 = "INSERT INTO tag (name) VALUES (?)";
+        try {
+            preparedStatement = connection.prepareStatement(SQL_1, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, tag.getName());
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
+            tag.setId(resultSet.getInt(1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return tag;
+    }
+
+    @Override
+    public Tag getById(Integer integer) {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String SQL = "SELECT * FROM tag WHERE id = ?";
+        Tag tag = null;
+        try {
+            preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setInt(1, integer);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                tag = new Tag(integer, resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return tag;
+    }
+
+    @Override
     public List<Tag> getAll() {
         return getAllTagsInternal();
     }
@@ -18,11 +108,12 @@ public class DatabaseTagRepositoryImpl implements TagRepository {
     private List<Tag> getAllTagsInternal() {
         Connection connection = getConnection();
         Statement statement = null;
+        ResultSet resultSet = null;
         String SQL = "SELECT id, name FROM tag";
         List<Tag> tags = new ArrayList<>();
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(SQL);
+            resultSet = statement.executeQuery(SQL);
             while (resultSet.next()) {
                 Tag tag = new Tag();
                 tag.setId(resultSet.getInt("id"));
@@ -32,6 +123,13 @@ public class DatabaseTagRepositoryImpl implements TagRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
             if (statement != null) {
                 try {
                     statement.close();
@@ -48,75 +146,6 @@ public class DatabaseTagRepositoryImpl implements TagRepository {
             }
         }
         return tags;
-    }
-
-    @Override
-    public Tag getById(Integer integer) {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = null;
-        String SQL = "SELECT * FROM tag WHERE id = ?";
-        Tag tag = null;
-        try {
-            preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setInt(1, integer);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                tag = new Tag(integer, resultSet.getString("name"));
-            } else {
-                System.out.println("Tag " + integer + " doesn't exist");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return tag;
-    }
-
-    @Override
-    public Tag save(Tag tag) {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = null;
-        String SQL_1 = "INSERT INTO tag (name) VALUES (?)";
-        try {
-            preparedStatement = connection.prepareStatement(SQL_1, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, tag.getName());
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            resultSet.next();
-            tag.setId(resultSet.getInt(1));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return tag;
     }
 
     @Override
