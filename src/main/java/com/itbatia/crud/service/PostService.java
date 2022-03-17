@@ -7,7 +7,15 @@ import com.itbatia.crud.repository.database.DatabasePostRepositoryImpl;
 import java.util.List;
 
 public class PostService {
-    private final PostRepository postRepository = new DatabasePostRepositoryImpl();
+
+    private PostRepository postRepository = new DatabasePostRepositoryImpl();
+
+    public PostService() {
+    }
+
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
 
     public Post createPost(String content, List<Tag> tags, PostStatus postStatus) {
         Post post = new Post(null, content, tags, postStatus);

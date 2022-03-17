@@ -7,7 +7,14 @@ import com.itbatia.crud.repository.database.DatabaseTagRepositoryImpl;
 import java.util.List;
 
 public class TagService {
-    private final TagRepository tagRepository = new DatabaseTagRepositoryImpl();
+    private TagRepository tagRepository = new DatabaseTagRepositoryImpl();
+
+    public TagService() {
+    }
+
+    public TagService(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
 
     public Tag createTag(String name) {
         Tag tag = new Tag(null, name);
