@@ -16,8 +16,7 @@
 :white_check_mark: Сервисный слой покрыт юнит тестами (__JUnit + Mockito__)   
 :white_check_mark: Для импорта библиотек используется __Maven__
 
-
-**Общий стек технологий проекта:** _Java, MySQL, JDBC, Maven, Liquibase, JUnit, Mockito_    
+**Общий стек технологий проекта:** _Java, MySQL, JDBC, Maven, Liquibase, JUnit, Mockito_.    
 
 ***Пример из консоли:***    
 
@@ -32,9 +31,13 @@
 | 1 | [Скопируйте код на свой ПК](https://github.com/itbatia/ApplicationCRUD/archive/refs/heads/master.zip)|
 | 2 | Извлеките содержимое архива. В указанном месте появится папка ApplicationCRUD-master. |
 | 3 | Зайдите в папку ApplicationCRUD-master и в адресной строке пропишите: cmd |
-|   | ![](screenshots/scr2.jpg)|
+|   | ![](screenshots/screen1.jpg)|
 | 4 | Откроется командная строка, в которой необходимо прописать команду: mvn package. Результатом её выполнения будет примерно следующее:|
-|   | ![](screenshots/scr3.jpg)|
-| 5 | Затем пропишите команду: mvn exec:java -Dexec.mainClass="com.itbatia.crud.Main" |
-|   | ![](screenshots/scr4.jpg)|
-|   | Программа запущена и готова к использованию! |
+|   | ![](screenshots/screen2.jpg)|
+| 5 | Запустите миграцию БД: mvn liquibase:update |
+|   | ![](screenshots/screen3.jpg)||
+| 6 | Затем пропишите команду: mvn exec:java -Dexec.mainClass="com.itbatia.crud.Main" |
+|   | ![](screenshots/screen4.jpg)|
+| :triangular_flag_on_post: | Программа запущена и готова к использованию! |
+
+*Для последующих запусков выполняйте только пункты № 3 и 6.*
