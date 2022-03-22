@@ -20,6 +20,9 @@
         <mysql.version>8.0.25</mysql.version>
         <mockito.version>2.24.0</mockito.version>
         <liquibase.version>4.9.0</liquibase.version>
+        <database.url>jdbc:mysql://localhost:3306/crud</database.url>
+        <username>root</username>
+        <password>password</password>
     </properties>
 
     <dependencies>
@@ -94,9 +97,9 @@
                     <artifactId>liquibase-maven-plugin</artifactId>
                     <version>${liquibase.version}</version>
                     <configuration>
-                        <url>jdbc:mysql://localhost:3306/crud</url>
-                        <username>root</username>
-                        <password>itbatia7104203</password>
+                        <url>${database.url}</url>
+                        <username>${username}</username>
+                        <password>${password}</password>
                         <changeLogFile>
                             src/main/resources/db/migrations/master.xml
                         </changeLogFile>

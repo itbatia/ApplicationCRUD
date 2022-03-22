@@ -9,7 +9,7 @@ public class DatabaseConnection {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DATABASE_URL = "jdbc:mysql://localhost:3306/crud";
     static final String USER = "root";
-    static final String PASSWORD = "itbatia7104203";
+    static final String PASSWORD = "password";
 
     public static Connection getConnection() {
         Connection connection = null;

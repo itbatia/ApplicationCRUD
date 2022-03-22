@@ -30,14 +30,15 @@
 |:----:|:----|
 | 1 | [Скопируйте код на свой ПК](https://github.com/itbatia/ApplicationCRUD/archive/refs/heads/master.zip)|
 | 2 | Извлеките содержимое архива. В указанном месте появится папка ApplicationCRUD-master. |
-| 3 | Зайдите в папку ApplicationCRUD-master и в адресной строке пропишите: cmd |
+| 3 | Для локального использования приложения необходимо внести логин, пароль и URL от своей БД MySQL.     Для этого измените файл ApplicationCRUD-master\pom.xml указав в теге <<properties>properties> свои <database.url>, <username<username>> и <password<password>>.     Соответствующие изменения внесите в файл ApplicationCRUD-master\src\main\java\com\itbatia\crud\utils\DatabaseConnection.java в поля DATABASE_URL, USER и PASSWORD.|
+| 4 | Зайдите в папку ApplicationCRUD-master и в адресной строке пропишите: cmd |
 |   | ![](screenshots/screen1.jpg)|
-| 4 | Откроется командная строка, в которой необходимо прописать команду: mvn package. Результатом её выполнения будет примерно следующее:|
+| 5 | Откроется командная строка, в которой необходимо прописать команду: mvn package. Результатом её выполнения будет примерно следующее:|
 |   | ![](screenshots/screen2.jpg)|
-| 5 | Запустите миграцию БД: mvn liquibase:update |
+| 6 | Запустите миграцию БД: mvn liquibase:update |
 |   | ![](screenshots/screen3.jpg)||
-| 6 | Затем пропишите команду: mvn exec:java -Dexec.mainClass="com.itbatia.crud.Main" |
+| 7 | Затем пропишите команду: mvn exec:java -Dexec.mainClass="com.itbatia.crud.Main" |
 |   | ![](screenshots/screen4.jpg)|
 | :triangular_flag_on_post: | Программа запущена и готова к использованию! |
 
-*Для последующих запусков выполняйте только пункты № 3 и 6.*
+*Для последующих запусков выполняйте только пункты № 4 и 7.*
