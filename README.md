@@ -30,7 +30,7 @@
 |:----:|:----|
 | 1 | [Скопируйте код на свой ПК](https://github.com/itbatia/ApplicationCRUD/archive/refs/heads/master.zip)|
 | 2 | Извлеките содержимое архива. В указанном месте появится папка ApplicationCRUD-master. |
-| 3 | Для локального использования приложения необходимо внести логин, пароль и URL от своей БД MySQL.     Для этого измените файл ApplicationCRUD-master\pom.xml указав в теге <<properties>properties> свои <database.url>, <username<username>> и <password<password>>.     Соответствующие изменения внесите в файл ApplicationCRUD-master\src\main\java\com\itbatia\crud\utils\DatabaseConnection.java в поля DATABASE_URL, USER и PASSWORD.|
+| 3 | Для локального использования приложения необходимо внести логин, пароль и URL от своей БД MySQL.     Для этого измените файл pom.xml указав в теге <<properties>properties> свои <database.url>, <username<username>> и <password<password>>.     Соответствующие изменения внесите в файл src\main\java\com\itbatia\crud\utils\DatabaseConnection.java в поля DATABASE_URL, USER и PASSWORD.|
 | 4 | Зайдите в папку ApplicationCRUD-master и в адресной строке пропишите: cmd |
 |   | ![](screenshots/screen1.jpg)|
 | 5 | Откроется командная строка, в которой необходимо прописать команду: mvn package. Результатом её выполнения будет примерно следующее:|
